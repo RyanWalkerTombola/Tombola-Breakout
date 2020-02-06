@@ -4,6 +4,7 @@ import { Vector } from './utilites';
 import { mouse } from './input';
 import Camera from './components/camera';
 import Cube from './components/cube';
+import Player from './components/player';
 
 // Create a Pixi Application
 export const resolution: Vector = new Vector(640, 1136);
@@ -30,12 +31,15 @@ function Setup(): void {
     // Create the entities in the scene
     new Entity("Camera", [Camera]);
 
-    const player = new Entity("Player", [Cube]);
+    const player = new Entity("Player", [Player, Cube]);
     player.position = new Vector(halfRes.x, -150);
 
     const cube = player.GetComponent<Cube>(Cube);
     cube.width = 200;
     cube.height = 50;
+
+    const playerScript = player.GetComponent<Player>(Player);
+    playerScript.speed = 6;
 
     // Call the start method on all entites when loaded
     Entity.entities.forEach((entity: Entity) => {
