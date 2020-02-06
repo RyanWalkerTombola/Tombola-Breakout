@@ -7,7 +7,7 @@ This is a very simple starter kit for TypeScript and configured with Webpack.
 Please run this command on your terminal, it will be install all dependencies:
 
 ```
-npm run install
+npm install
 ```
 
 the packages are:
