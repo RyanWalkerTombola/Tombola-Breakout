@@ -57,6 +57,10 @@ function Setup(): void {
         cube.width = 50;
         cube.height = 50;
         cube.lineWidth = 10;
+
+        const breakerScript: Breaker = breaker.GetComponent<Breaker>(Breaker);
+        breakerScript.cube = cube;
+        breakerScript.speed = 5;
     }
 
     // Call the start method on all entites when loaded
