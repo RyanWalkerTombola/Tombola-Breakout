@@ -1,13 +1,16 @@
 import { Component } from '../entity';
-import { stage, resolution } from '../app';
+import { stage, halfRes } from '../app';
 import { Vector } from '../utilites';
 
 export default class Camera extends Component {
 
-    Update(delta: number, time: number): void {
+    Start() {
+        
+        stage.pivot = halfRes.MultiplyNum(-1);
+    }
 
-        const halfRes: Vector = resolution.DivideNum(2);
-        stage.pivot = halfRes;
-        stage.position = new Vector(halfRes.x, resolution.y);
+    Update(delta: number, time: number): void {
+        
+        stage.position = this.entity.position;
     }
 }

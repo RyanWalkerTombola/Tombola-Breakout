@@ -27,13 +27,17 @@ export class Entity extends PIXI.Container {
         });
     }
 
-    static Find(name: string): Entity {
-        return Entity.entities.filter((entity: Entity) => entity.name === name)[0];
-    } 
-
     Destroy() {
         this.destroy();
         Entity.entities.splice(Entity.entities.indexOf(this));
+    }
+
+    static Find(name: string): Entity {
+        return Entity.entities.filter((entity: Entity) => entity.name === name)[0];
+    }
+
+    GetComponent<T extends Component>(component: new(entity: Entity) => Component): T {
+        return this.components.filter((comp) => comp instanceof component)[0] as T;
     }
 }
 
