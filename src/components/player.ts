@@ -6,12 +6,11 @@ import Cube from './cube';
 
 export default class Player extends Component {
 
-    private cube: Cube | undefined
-
-    public speed = 5;
+    public cube: Cube | undefined
+    public speed: number = 0;
 
     Start() {
-        this.cube = this.entity.GetComponent<Cube>(Cube);
+        
     }
 
     Update(delta: number) {

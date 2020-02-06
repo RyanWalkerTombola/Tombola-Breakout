@@ -7,10 +7,9 @@ export default class Cube extends Component {
 
     private graphics: PIXI.Graphics = new Graphics();
 
-    public width: number = 100;
-    public height: number = 100;
-
-    public lineWidth: number = 10;
+    public width: number = 0;
+    public height: number = 0;
+    public lineWidth: number = 0;
 
     Start(): void {
 

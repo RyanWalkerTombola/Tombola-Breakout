@@ -4,9 +4,13 @@ import { Vector } from '../utilites';
 
 export default class Camera extends Component {
 
-    Update(delta: number, time: number): void {
-
+    Start() {
+        
         stage.pivot = halfRes.MultiplyNum(-1);
-        stage.position = new Vector(-halfRes.x, halfRes.y);
+    }
+
+    Update(delta: number, time: number): void {
+        
+        stage.position = this.entity.position;
     }
 }
