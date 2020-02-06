@@ -4,36 +4,22 @@ import Camera from './components/camera';
 import { mouse } from './input';
 import { Vector } from './utilites';
 
-// -----------------------------------------------======== PIXI ========----------------------------------------------- //
-
-// // Preserves pixels when upscaling
-// PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-
-// const app = new Application({width: 375, height: 667});
-
 // Create a Pixi Application
+export const resolution: Vector = new Vector(375, 667);
 export const app: PIXI.Application = new Application({
-    width: innerWidth,
-    height: innerHeight,
+    width: resolution.x,
+    height:  resolution.y,
     antialias: true,
     transparent: false,
     resolution: 1,
     forceFXAA: false,
     roundPixels: true
 });
-
 export const stage: PIXI.Container = app.stage;
-export let resolution: Vector = new Vector(innerWidth, innerHeight);
-let lastRes: Vector = Vector.zero;
 
 
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
-
-// Resize the canvas to the full page
-app.renderer.view.style.position = "absolute";
-app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
 
 // Run the Setup function when finshed loading
 Loader.load(Setup);
@@ -55,12 +41,6 @@ function Setup(): void {
     // Call the update method on all entities each frame and pass the delta time
     app.ticker.add((delta: number) => {
         time += delta;
-
-        resolution = new Vector(innerWidth, innerHeight);
-        if (!lastRes.CompareTo(resolution)) {
-            app.renderer.resize(innerWidth, innerHeight);
-            lastRes = resolution;
-        }
 
         entities.forEach((entity: Entity) => {
             entity.Update(delta, time);
