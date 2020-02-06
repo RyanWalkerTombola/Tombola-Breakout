@@ -1,15 +1,13 @@
 import { Component } from '../entity';
 import { stage, resolution } from '../app';
-import { mouse } from '../input';
+import { Vector } from '../utilites';
 
 export default class Camera extends Component {
 
-    public zoom: number = 1;
+    Update(delta: number, time: number): void {
 
-    Update(delta: number): void {
-
-        stage.pivot = this.entity.position;
-        stage.position = resolution.DivideNum(2);
-        stage.scale.set(1 / this.zoom);
+        const halfRes: Vector = resolution.DivideNum(2);
+        stage.pivot = halfRes;
+        stage.position = new Vector(halfRes.x, resolution.y);
     }
 }

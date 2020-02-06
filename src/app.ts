@@ -1,5 +1,5 @@
 import { Application, Loader } from './aliases';
-import { Entity, entities, Component } from './entity';
+import { Entity } from './entity';
 import { mouse } from './input';
 import { Vector } from './utilites';
 import Camera from './components/camera';
@@ -26,11 +26,12 @@ Loader.load(Setup);
 
 function Setup(): void {
 
-    entities.push(camera);
+    // Create the entities in the scene
+    new Entity("Camera", [Camera]);
     new Entity("Player", [Movement]);
 
     // Call the start method on all entites when loaded
-    entities.forEach((entity: Entity) => {
+    Entity.entities.forEach((entity: Entity) => {
         entity.Start();
     });
 
@@ -39,7 +40,7 @@ function Setup(): void {
     app.ticker.add((delta: number) => {
         time += delta;
 
-        entities.forEach((entity: Entity) => {
+        Entity.entities.forEach((entity: Entity) => {
             entity.Update(delta, time);
         });
         mouse.wheel = 0;
