@@ -1,53 +1,37 @@
 import { Application, Loader } from './aliases';
-import { Entity, Component } from './entity';
-import Camera from './components/camera';
+import { Entity } from './entity';
 import { mouse } from './input';
 import { Vector } from './utilites';
-
-// -----------------------------------------------======== PIXI ========----------------------------------------------- //
-
-// // Preserves pixels when upscaling
-// PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-
-// const app = new Application({width: 375, height: 667});
+import Camera from './components/camera';
+import Movement from './components/movement';
 
 // Create a Pixi Application
+export const resolution: Vector = new Vector(640, 1136);
 export const app: PIXI.Application = new Application({
-    width: innerWidth,
-    height: innerHeight,
+    width: resolution.x,
+    height:  resolution.y,
     antialias: true,
     transparent: false,
     resolution: 1,
     forceFXAA: false,
     roundPixels: true
 });
-
 export const stage: PIXI.Container = app.stage;
-export let resolution: Vector = new Vector(innerWidth, innerHeight);
-let lastRes: Vector = Vector.zero;
-
 
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
-
-// Resize the canvas to the full page
-app.renderer.view.style.position = "absolute";
-app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
 
 // Run the Setup function when finshed loading
 Loader.load(Setup);
 
 function Setup(): void {
 
-    const entities: Entity[] = [];
-
-    const camera = new Entity("Camera");
-    camera.components.push(new Camera(camera));
-    entities.push(camera);
+    // Create the entities in the scene
+    new Entity("Camera", [Camera]);
+    new Entity("Player", [Movement]);
 
     // Call the start method on all entites when loaded
-    entities.forEach((entity: Entity) => {
+    Entity.entities.forEach((entity: Entity) => {
         entity.Start();
     });
 
@@ -56,13 +40,7 @@ function Setup(): void {
     app.ticker.add((delta: number) => {
         time += delta;
 
-        resolution = new Vector(innerWidth, innerHeight);
-        if (!lastRes.CompareTo(resolution)) {
-            app.renderer.resize(innerWidth, innerHeight);
-            lastRes = resolution;
-        }
-
-        entities.forEach((entity: Entity) => {
+        Entity.entities.forEach((entity: Entity) => {
             entity.Update(delta, time);
         });
         mouse.wheel = 0;
