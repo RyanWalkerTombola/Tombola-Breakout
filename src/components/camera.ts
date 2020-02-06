@@ -5,11 +5,8 @@ import { mouse } from '../input';
 export default class Camera extends Component {
 
     public zoom: number = 1;
-    private zoomSpeed: number = 0.001;
 
     Update(delta: number): void {
-
-        this.zoom *= 1 + mouse.wheel * this.zoomSpeed * delta;
 
         stage.pivot = this.entity.position;
         stage.position = resolution.DivideNum(2);

@@ -1,13 +1,18 @@
 import { stage } from "./app";
+import Camera from "./components/camera";
+
+export const entities: Entity[] = [];
 
 export class Entity extends PIXI.Container {
 
     public name: string;
     public components: Component[] = [];
 
-    constructor(name: string) {
+    constructor(name: string, components?: Array<new(entity: Entity) => Component>) {
         super();
         this.name = name;
+        this.components = (components) ? components.map((component) => new component(this)) : [];
+        entities.push(this);
         stage.addChild(this);
     }
 

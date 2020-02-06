@@ -1,11 +1,12 @@
 import { Application, Loader } from './aliases';
-import { Entity, Component } from './entity';
-import Camera from './components/camera';
+import { Entity, entities, Component } from './entity';
 import { mouse } from './input';
 import { Vector } from './utilites';
+import Camera from './components/camera';
+import Movement from './components/movement';
 
 // Create a Pixi Application
-export const resolution: Vector = new Vector(375, 667);
+export const resolution: Vector = new Vector(640, 1136);
 export const app: PIXI.Application = new Application({
     width: resolution.x,
     height:  resolution.y,
@@ -17,7 +18,6 @@ export const app: PIXI.Application = new Application({
 });
 export const stage: PIXI.Container = app.stage;
 
-
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
 
@@ -26,11 +26,8 @@ Loader.load(Setup);
 
 function Setup(): void {
 
-    const entities: Entity[] = [];
-
-    const camera = new Entity("Camera");
-    camera.components.push(new Camera(camera));
     entities.push(camera);
+    new Entity("Player", [Movement]);
 
     // Call the start method on all entites when loaded
     entities.forEach((entity: Entity) => {
