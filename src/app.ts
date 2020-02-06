@@ -1,10 +1,11 @@
 import { Application, Loader } from './aliases';
-import { Entity } from './entity';
+import { Entity, Component } from './entity';
 import { Vector } from './utilites';
 import { mouse } from './input';
 import Camera from './components/camera';
 import Cube from './components/cube';
 import Player from './components/player';
+import Breaker from './components/breaker';
 
 // Create a Pixi Application
 export const resolution: Vector = new Vector(640, 1136);
@@ -29,20 +30,34 @@ Loader.load(Setup);
 function Setup(): void {
 
     // Create the entities in the scene
-    const camera = new Entity("Camera", [Camera]);
-    camera.position = new Vector(-halfRes.x, halfRes.y);
+    {
+        const camera: Entity = new Entity("Camera", [Camera]);
+        camera.position = new Vector(-halfRes.x, halfRes.y);
+    }
 
-    const player = new Entity("Player", [Player, Cube]);
-    player.position = new Vector(halfRes.x, -150);
+    {
+        const player: Entity = new Entity("Player", [Player, Cube]);
+        player.position = new Vector(halfRes.x, -150);
+    
+        const cube: Cube = player.GetComponent<Cube>(Cube);
+        cube.width = 200;
+        cube.height = 50;
+        cube.lineWidth = 10;
+    
+        const playerScript: Player = player.GetComponent<Player>(Player);
+        playerScript.cube = cube;
+        playerScript.speed = 6;
+    }
 
-    const cube = player.GetComponent<Cube>(Cube);
-    cube.width = 200;
-    cube.height = 50;
-    cube.lineWidth = 10;
+    {
+        const breaker: Entity = new Entity("Breaker", [Cube, Breaker]);
+        breaker.position = new Vector(halfRes.x, -250);
 
-    const playerScript = player.GetComponent<Player>(Player);
-    playerScript.cube = cube;
-    playerScript.speed = 6;
+        const cube: Cube = breaker.GetComponent<Cube>(Cube);
+        cube.width = 50;
+        cube.height = 50;
+        cube.lineWidth = 10;
+    }
 
     // Call the start method on all entites when loaded
     Entity.entities.forEach((entity: Entity) => {
