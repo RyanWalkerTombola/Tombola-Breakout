@@ -2,6 +2,7 @@ import { Component } from '../entity';
 import { Vector, Calc } from '../utilites';
 import { resolution, halfRes } from '../app';
 import Rectangle from './rectangle';
+import Collider from './collider'
 
 export default class Player extends Component {
 
@@ -28,5 +29,9 @@ export default class Player extends Component {
         }
 
         // this.entity.position = this.velocity.Add(this.entity.position as Vector);
+    }
+
+    OnCollision(collision: Collider) {
+        console.log(collision.entity.name);
     }
 }

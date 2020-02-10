@@ -1,7 +1,7 @@
 import { Component } from '../entity';
-import CollisionRect from './collisionRect';
+import ColliderRect from './colliderRect';
 
-export default class Collider extends Component {
+export default abstract class Collider extends Component {
 
     static colliders: Collider[] = [];
 
@@ -9,10 +9,12 @@ export default class Collider extends Component {
     public masks: string[] = [];
 
     Start(): void {
+
         Collider.colliders.push(this);
     }
 
     Update(): void {
+
         Collider.colliders.map((collider) => {
             if (collider !== this) {
 
@@ -32,14 +34,22 @@ export default class Collider extends Component {
     }
 
     HitTest(collider: Collider): void {
+
+        let hit: Collider | null;
+
         switch (typeof Collider) {
-            case typeof CollisionRect:
-                this.HitTestRectangle(collider as CollisionRect);
+            case typeof ColliderRect:
+                hit = this.HitTestRectangle(collider as ColliderRect);
                 break;
             default:
-                console.log("default");
+                console.log("No collision method");
+                hit = null;
+        }
+
+        if (hit) {
+            this.entity.OnCollision(collider);
         }
     }
 
-    HitTestRectangle(collider: CollisionRect): void {};
+    HitTestRectangle(collision: ColliderRect): Collider | null { return null };
 }

@@ -1,4 +1,5 @@
 import { stage } from "./app";
+import Collider from "./components/collider";
 
 export class Entity extends PIXI.Container {
 
@@ -39,6 +40,12 @@ export class Entity extends PIXI.Container {
     GetComponent<T extends Component>(component: new(entity: Entity) => Component): T {
         return this.components.filter((comp) => comp instanceof component)[0] as T;
     }
+
+    OnCollision(collision: Collider): void {
+        this.components.map((component) => {
+            component.OnCollision(collision);
+        })
+    }
 }
 
 export abstract class Component {
@@ -51,4 +58,5 @@ export abstract class Component {
 
     Start(): void {}
     Update(delta: number, time: number): void {}
+    OnCollision(collision: Collider): void {}
 }

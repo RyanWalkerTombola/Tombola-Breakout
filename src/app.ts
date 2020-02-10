@@ -6,7 +6,7 @@ import Camera from './components/camera';
 import Rectangle from './components/rectangle';
 import Player from './components/player';
 import Breaker from './components/breaker';
-import CollisonRect from './components/collisionRect';
+import CollisonRect from './components/colliderRect';
 
 // Create a Pixi Application
 export const resolution: Vector = new Vector(640, 1136);
@@ -46,8 +46,7 @@ function Setup(): void {
 
         const collider: CollisonRect = player.GetComponent<CollisonRect>(CollisonRect);
         collider.Size = new Vector(200, 50);
-        collider.layers = ["player"];
-        collider.masks = ["player"];
+        collider.masks = ["breaker"];
     
         const playerScript: Player = player.GetComponent<Player>(Player);
         playerScript.rectangle = rectangle;
@@ -60,12 +59,13 @@ function Setup(): void {
 
         const rectangle: Rectangle = breaker.GetComponent<Rectangle>(Rectangle);
         rectangle.Size = new Vector(50, 50);
+        rectangle.offset = new Vector(100, 0);
         rectangle.lineWidth = 10;
 
         const collider: CollisonRect = breaker.GetComponent<CollisonRect>(CollisonRect);
         collider.Size = new Vector(50, 50);
-        collider.layers = ["player"];
-        collider.masks = ["player"];
+        collider.offset = new Vector(100, 0);
+        collider.layers = ["breaker"];
 
         const breakerScript: Breaker = breaker.GetComponent<Breaker>(Breaker);
         breakerScript.rectangle = rectangle;

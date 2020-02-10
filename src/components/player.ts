@@ -3,7 +3,7 @@ import { Vector, Calc } from '../utilites';
 import { resolution } from '../app';
 import { left, right, down, up } from '../input';
 import Rectangle from './rectangle';
-import Breaker from './breaker';
+import Collider from './collider';
 
 export default class Player extends Component {
 
@@ -33,5 +33,9 @@ export default class Player extends Component {
         if (this.rectangle) {
             this.entity.position.x = Calc.Clamp(this.entity.position.x, this.rectangle.HalfSize.x, resolution.x - this.rectangle.HalfSize.x);
         }
+    }
+
+    OnCollision(collision: Collider) {
+        console.log(collision.entity.name);
     }
 }
