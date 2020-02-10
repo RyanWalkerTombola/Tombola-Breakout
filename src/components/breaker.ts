@@ -1,11 +1,11 @@
 import { Component } from '../entity';
 import { Vector, Calc } from '../utilites';
 import { resolution, halfRes } from '../app';
-import Cube from './cube';
+import Rectangle from './rectangle';
 
 export default class Player extends Component {
 
-    public cube: Cube | undefined
+    public rectangle: Rectangle | undefined
     public speed: number = 0;
     public velocity: Vector = Vector.zero;
 
@@ -14,19 +14,19 @@ export default class Player extends Component {
     }
 
     Update(delta: number) {
-        if (this.cube) {
-            if (this.entity.position.x >= resolution.x - this.cube.width / 2) {
+        if (this.rectangle) {
+            if (this.entity.position.x >= resolution.x - this.rectangle.HalfSize.x) {
                 this.velocity.x = -Math.abs(this.velocity.x);
-            } else if (this.entity.position.x <= this.cube.width / 2) {
+            } else if (this.entity.position.x <= this.rectangle.HalfSize.x) {
                 this.velocity.x = Math.abs(this.velocity.x);
             }
-            if (this.entity.position.y >= -this.cube.height / 2) {
+            if (this.entity.position.y >= -this.rectangle.HalfSize.y) {
                 this.velocity.y = -Math.abs(this.velocity.y);
-            } else if (this.entity.position.y <= -resolution.y + this.cube.height / 2) {
+            } else if (this.entity.position.y <= -resolution.y + this.rectangle.HalfSize.y) {
                 this.velocity.y = Math.abs(this.velocity.y);
             }
         }
 
-        this.entity.position = this.velocity.Add(this.entity.position as Vector);
+        // this.entity.position = this.velocity.Add(this.entity.position as Vector);
     }
 }
