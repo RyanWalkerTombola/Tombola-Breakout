@@ -1,10 +1,14 @@
-import { Component } from "./Component";
-import { ComponentManager } from "./ComponentManager";
-import { EntityManager } from "./EntityManager";
+import Component from "./Component";
 
-export class Entity {
-    readonly id = EntityManager.nextEntityId++;
+export default class Entity {
+    static nextEntityId: number = 0;
+    readonly id = Entity.nextEntityId++;
+
     constructor(components: typeof Component[]) {
-        ComponentManager.addCompoents(this.id, components);
+        Component.addComponents(this.id, components);
+    }
+
+    addComponents(components: typeof Component[]) {
+        Component.addComponents(this.id, components);
     }
 }

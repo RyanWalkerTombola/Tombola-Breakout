@@ -1,9 +1,9 @@
 import { Application, Loader } from './aliases';
 import { Vector } from './utilites';
 import { mouse } from './input';
-import { Component } from './ecs/Component';
-import { ComponentManager } from './ecs/ComponentManager';
-import { Entity } from './ecs/Entity';
+import Entity from './ecs/Entity';
+import Component from './ecs/Component';
+import System from './ecs/System';
 
 // Create a Pixi Application
 export const resolution: Vector = new Vector(640, 1136);
@@ -23,13 +23,13 @@ export const stage: PIXI.Container = app.stage;
 document.body.appendChild(app.view);
 
 class Position extends Component {
-    static readonly id: number = ComponentManager.registerComponent(Position);
+    static readonly id: number = Component.registerComponent(Position);
     x: number = 0;
     y: number = 0;
 }
 
 class Velocity extends Component {
-    static readonly id: number = ComponentManager.registerComponent(Velocity);
+    static readonly id: number = Component.registerComponent(Velocity);
     x: number = 0;
     y: number = 0;
 }
@@ -40,4 +40,11 @@ function Setup(): void {
     const cube: Entity = new Entity([Position, Velocity]);
     const enemy: Entity = new Entity([Position]);
     const pixi: Entity = new Entity([Velocity]);
+
+    const movement: System = new System([Position, Velocity], (delta: number, position: Position, velocity: Velocity) => {
+        position.x += velocity.x * delta;
+        position.y += velocity.y * delta;
+    });
+
+    Component.logComponentPools();
 }
